@@ -1,5 +1,4 @@
 ﻿using PeopleViewer.Common;
-using PersonDataReader.Service;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,13 +7,13 @@ namespace PeopleViewer.Presentation
 {
     public class PeopleViewModel : INotifyPropertyChanged
     {
-        protected ServiceReader DataReader;
+        protected IPersonReader DataReader;
 
         private IEnumerable<Person> _people;
 
         public IEnumerable<Person> People
         {
-            get { return _people; }
+            get => _people;
             set
             {
                 if (_people == value)
@@ -24,9 +23,9 @@ namespace PeopleViewer.Presentation
             }
         }
 
-        public PeopleViewModel()
+        public PeopleViewModel(IPersonReader personReader)
         {
-            DataReader = new ServiceReader();
+            DataReader = personReader;
         }
 
         public void RefreshPeople()
@@ -39,10 +38,7 @@ namespace PeopleViewer.Presentation
             People = new List<Person>();
         }
 
-        public string DataReaderType
-        {
-            get { return DataReader.GetType().ToString(); }
-        }
+        public string DataReaderType => DataReader.GetType().ToString();
 
 
         #region INotifyPropertyChanged Members
